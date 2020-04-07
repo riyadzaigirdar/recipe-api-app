@@ -5,10 +5,12 @@ class ModelTests(TestCase):
 
     def test_create_user_with_email_successful(self):
         email = 'riyad@gmail.com'
+        name = 'riyad'
         password = '1234'
 
         user = get_user_model().objects.create_user(
         email = email,
+        name = name,
         password = password
         )
         self.assertEqual(user.email,email)
@@ -26,6 +28,7 @@ class ModelTests(TestCase):
     def test_super_user(self):
         user = get_user_model().objects.create_superuser(
         'riyad@gmail.com',
+        'riyad',
         '1234'
         )
         self.assertTrue(user.is_staff)
