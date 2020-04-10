@@ -16,7 +16,6 @@ class PublicUserApiTest(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-
     def test_create_valid_user_success(self):
         payload = {
         'email' : 'riyad1234@gmail.com',
@@ -106,7 +105,7 @@ class PublicUserApiTest(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class PublicUserApiTest(TestCase):
+class PrivateUserApiTest(TestCase):
 
     def setUp(self):
         self.user = create_user(
