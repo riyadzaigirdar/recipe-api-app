@@ -190,6 +190,48 @@ class PrivateRecipeApi(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
+    def test_recipe_filter_with_tags(self):
+        recipe1 = sample_recipe(user=self.user, title='begun')
+        recipe2 = sample_recipe(user=self.user, title='Murgi')
+        recipe3 = sample_recipe(user=self.user, title='dal')
+
+        tag1 = sample_tag(user=self.user, name='vegan')
+        tag2 = sample_tag(user=self.user, name='non-veg')
+
+        recipe1.tags.add(tag1)
+        recipe2.tags.add(tag2)
+
+        res = self.client.get(RECIPE_URL, {'tags': f'{tag1.id},{tag2.id}'})
+
+        serializer1 = RecipeSerializer(recipe1)
+        serializer2 = RecipeSerializer(recipe2)
+        serializer3 = RecipeSerializer(recipe3)
+
+        self.assertIn(serializer1.data, res.data)
+        self.assertIn(serializer2.data, res.data)
+        # self.assertNotIn(serializer3.data, res.data)
+
+    def test_recipe_filter_with_ingredients(self):
+        recipe1 = sample_recipe(user=self.user, title='begun')
+        recipe2 = sample_recipe(user=self.user, title='Murgi')
+        recipe3 = sample_recipe(user=self.user, title='dal')
+
+        ingredients1 = sample_ingredient(user=self.user, name='salt')
+        ingredients2 = sample_ingredient(user=self.user, name='mosla')
+
+        recipe1.ingredients.add(ingredients1)
+        recipe2.ingredients.add(ingredients2)
+
+        res = self.client.get(RECIPE_URL, {'ingredients': f'{ingredients1.id},{ingredients2.id}'})
+
+        serializer1 = RecipeSerializer(recipe1)
+        serializer2 = RecipeSerializer(recipe2)
+        serializer3 = RecipeSerializer(recipe3)
+
+        self.assertIn(serializer1.data, res.data)
+        self.assertIn(serializer2.data, res.data)
+        # self.assertNotIn(serializer3.data, res.data)
+
 
 class ImageUploadTest(TestCase):
 
