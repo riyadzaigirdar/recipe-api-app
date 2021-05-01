@@ -13,13 +13,13 @@ services:
             python manage.py migrate &&
             python manage.py runserver 0.0.0.0:8000"
    environment:
-    - DB_HOST=db
+    - DB_HOST=db <-- eije mama host db dise jeta service name
     - DB_NAME=app
     - DB_USER=postgres
     - DB_PASS=supersecretpassword
    depends_on:
     - db
-  db:
+  db: <-- jeta ei container er sathe communicatate korte parbe
    image: postgres:10-alpine
    environment:
     - POSTGRES_DB=app
